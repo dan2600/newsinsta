@@ -3,15 +3,6 @@ var imgSize;
 var canvas = document.getElementById("thecanvas");
 var context = canvas.getContext("2d");
 var working = false;
-var thecolor = 0;
-var colorselect = new Array("blue_OVERLAY.png", "teal_OVERLAY.png", "pink_OVERLAY.png", "red_OVERLAY.png", "yellow_OVERLAY.png", "sky_OVERLAY.png");
-var resizing = false;
-
-function setColor(x) {
-    thecolor = x;
-    wrapText(context, $("#textInput").val().replace(new RegExp("\n", "g"), " \n "), 540, 800, 1080);
-
-}
 
 function wrapText(context, text, x, y, maxWidth) {
     console.log("eah");
@@ -21,7 +12,7 @@ function wrapText(context, text, x, y, maxWidth) {
 
     //drawing of the test image - img1
 
-    img1.src = 'images/' + colorselect[thecolor];
+    img1.src = 'images/teal_OVERLAY.png';
 
     img1.onload = function() {
         context.drawImage(img1, 0, 0, canvas.width, canvas.height);
@@ -34,20 +25,19 @@ function wrapText(context, text, x, y, maxWidth) {
         var oldy = y;
         var linecount;
         var newlinec = false;
-        fontsize = 100 * (imgSize / 1080);
+        fontsize = 74 * (imgSize / 1080);
         do {
             x = oldx;
             y = oldy;
             linecount = 0;
             fontsize -= 2;
-            lineHeight = fontsize + 2;
+            lineHeight = fontsize - 1;
             context.font = fontsize + "px replica";
             context.fillStyle = 'white';
             for (var n = 0; n < words.length; n++) {
-                //console.log(words[n]);
+                console.log(words[n]);
                 if (words[n] === "\n\r" || words[n] === "\n") {
                     newlinec = true;
-                    console.log("new Line Character "+words[n]);
                 } else {
                     var testLine = line + words[n] + ' ';
                     var metrics = context.measureText(testLine);
@@ -55,7 +45,7 @@ function wrapText(context, text, x, y, maxWidth) {
                 }
                 if (testWidth > maxWidth && n > 0 || newlinec === true) {
                     linecount++;
-                    //   console.log("current linecountt " + linecount);
+                    console.log("current linecountt " + linecount);
                     if (!newlinec) {
                         line = words[n] + ' ';
                     } else {
@@ -74,7 +64,7 @@ function wrapText(context, text, x, y, maxWidth) {
                 breakError = true;
                 break;
             }
-        } while (linecount > 3 || linecount >= 2 && fontsize > 75 );
+        } while (linecount > 2 || linecount >= 2 && fontsize > 65 * (imgSize / 1080));
         if (breakError) {
             console.log("there was a loop error")
             return;
@@ -84,8 +74,7 @@ function wrapText(context, text, x, y, maxWidth) {
 
         line = '';
         x = oldx;
-        console.log("calculated line count is"+ linecount);
-        y = linecount === 0 ? oldy + lineHeight : linecount === 1 ? oldy + (lineHeight / 2.2) : oldy + (lineHeight / linecount);
+        y = linecount === 0 ? oldy + lineHeight : linecount === 1 ? oldy + (lineHeight / 2.2) : oldy;
         console.log("y position is " + y)
         for (var n = 0; n < words.length; n++) {
             if (words[n] === "\n\r" || words[n] === "\n") {
@@ -151,42 +140,17 @@ function loadImage(file) {
 
             }
             console.log(cropman);
-            // $("#previewImage").imgAreaSelect({
-            //     aspectRatio: '1:1',
-            //     handles: true,
-            //     onSelectEnd: function(preview, selection) {
-            //         $('input[name="x1"]').val(selection.x1);
-            //         $('input[name="y1"]').val(selection.y1);
-            //         $('input[name="x2"]').val(selection.x2);
-            //         $('input[name="y2"]').val(selection.y2);
-            //     }
-            // });
-            resizing = true;
-            $("#previewImage").draggable();
-
-            $("body").mouseup(function() {
-                if (parseInt($("#previewImage").css("top")) > 0) {
-                    $("#previewImage").css("top", "0px")
-                }
-                if (parseInt($("#previewImage").css("top")) < 500 - parseInt($("#previewImage").css("height"))) {
-                    $("#previewImage").css("top", 500 - parseInt($("#previewImage").css("height")) + "px")
-                }
-                if (parseInt($("#previewImage").css("left")) > 0) {
-                    $("#previewImage").css("left", "0px")
-                }
-                if (parseInt($("#previewImage").css("left")) < 500 - parseInt($("#previewImage").css("width"))) {
-                    $("#previewImage").css("left", 500 - parseInt($("#previewImage").css("width")) + "px")
+            $("#previewImage").imgAreaSelect({
+                aspectRatio: '1:1',
+                handles: true,
+                onSelectEnd: function(preview, selection) {
+                    $('input[name="x1"]').val(selection.x1);
+                    $('input[name="y1"]').val(selection.y1);
+                    $('input[name="x2"]').val(selection.x2);
+                    $('input[name="y2"]').val(selection.y2);
                 }
             });
-            $("#previewImage").on('mousewheel', function(event) {
-            	event.preventDefault();
-                currenth = parseInt($("#previewImage").css("height"))
-                currenth += event.deltaY;
-                $("#previewImage").css("height", currenth + "px");
-      
-         
 
-            });
         } else {
             console.log("square");
             imgSize = preview.naturalWidth;
@@ -201,7 +165,7 @@ function loadImage(file) {
                 var bob = preview.height - 1;
                 if (needcrop === true) {
                     $(".cropstuff").show();
-                    // $("#previewImage").imgAreaSelect({ x1: 0, x2: bob, y1: 0, y2: bob })
+                    $("#previewImage").imgAreaSelect({ x1: 0, x2: bob, y1: 0, y2: bob })
                 }
             });
         });
@@ -212,10 +176,9 @@ function loadImage(file) {
 $("#crop").on('click', function() {
     var img = document.getElementById('previewImage');
     sizeRatio = img.naturalWidth / img.width;
-
-    var Xcrop = (parseInt($("#previewImage").css("left"))) * sizeRatio;
-    var Ycrop = (parseInt($("#previewImage").css("top"))) * sizeRatio;
-    var Size = (parseInt($("#previewImage").css("height")) - (parseInt($("#previewImage").css("height")) - 500)) * sizeRatio;
+    var Xcrop = ($('input[name="x1"]').val() * -1) * sizeRatio;
+    var Ycrop = ($('input[name="y1"]').val() * -1) * sizeRatio;
+    var Size = ($('input[name="y2"]').val()) * sizeRatio;
     imgSize = Size;
     console.log(Xcrop + ":x " + Ycrop + ":y s:" + Size)
 
@@ -232,20 +195,27 @@ $("#makeText").on("click", function() {
 function imageToCanvas(offX, offY, size, cropped) {
     console.log("thesize is " + size)
     var ratio = 1;
-
-    console.log("oversize");
-    var backCanvas = document.createElement('canvas');
-    var backCtx = backCanvas.getContext('2d');
-    backCanvas.width = size;
-    backCanvas.height = size;
-    var img = document.getElementById("previewImage");
-    backCtx.drawImage(img, offX * ratio, offY * ratio);
-    canvas.width = 1080;
-    canvas.height = 1080;
-    size = 1080;
-    sizeRatio = 1;
-    imgSize = 1080;
-    context.drawImage(backCanvas, 0, 0, 1080, 1080);
+    if (size > 1000) {
+        console.log("oversize");
+        var backCanvas = document.createElement('canvas');
+        var backCtx = backCanvas.getContext('2d');
+        backCanvas.width = size;
+        backCanvas.height = size;
+        var img = document.getElementById("previewImage");
+        backCtx.drawImage(img, offX * ratio, offY * ratio);
+        canvas.width = 1080;
+        canvas.height = 1080;
+        size = 1080;
+        sizeRatio = 1;
+        imgSize = 1080;
+        context.drawImage(backCanvas, 0, 0, 1080, 1080);
+    } else {
+        console.log("approved size");
+        canvas.width = size;
+        canvas.height = size;
+        var img = document.getElementById("previewImage");
+        context.drawImage(img, offX * ratio, offY * ratio);
+    }
 
     var img1 = new Image();
 
@@ -258,18 +228,12 @@ function imageToCanvas(offX, offY, size, cropped) {
             $(".cropstuff").hide();
             $("#previewImage").imgAreaSelect({ remove: true })
         };
-        $(".textstuff").show();
+           $(".textstuff").show();
         img.src = canvas.toDataURL();
     };
+ 
 
-    $("#previewImage").css("left", "0px");
-    $("#previewImage").css("top", "0px");
-    $("#previewImage").css("height", "500px");
-    if (resizing) {
-        $("#previewImage").draggable('disable');
-    }
-    $("#previewImage").off('mousewheel');
-    img1.src = 'images/' + colorselect[thecolor];
+    img1.src = 'images/teal_OVERLAY.png';
 
 }
 

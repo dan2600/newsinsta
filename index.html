@@ -9,74 +9,12 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>VH1 NEWS INSTAGRAM IMGAGE GENERATOR</title>
+    <title>VH1 NEWS INSTAGRAM IMAGE GENERATOR</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link rel="stylesheet" type="text/css" href="css/imgareaselect-animated.css" />
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
-
-    <style>
-    @font-face {
-        font-family: 'replica';
-        src: url('fonts/vh1replica-heavy.eot');
-        /* IE9 Compat Modes */
-        src: url('fonts/vh1replica-heavy.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-        url('fonts/vh1replica-heavy.woff') format('woff'), /* Modern Browsers */
-        url('fonts/vh1replica-heavy.ttf') format('truetype'), /* Safari, Android, iOS */
-        url('fonts/vh1replica-heavy.svg#9caa965fe68157ead1ff820d6a079d87') format('svg');
-        /* Legacy iOS */
-        font-style: normal;
-        font-weight: 400;
-    }
-    
-    body {
-        font-family: replica;
-    }
-    
-    .output {
-        max-width: 500px;
-    }
-    
-    canvas {
-        display: none;
-    }
-    
-    .topbar1 {
-        width: 100%;
-        height: 50px;
-        font-size: 30px;
-        color: #fff;
-        background-color: #6e00af;
-    }
-    
-    .topbar2 {
-        width: 100%;
-        height: 50px;
-        font-size: 30px;
-        color: #fff;
-        background-color: #8b00c3;
-    }
-    
-    input[type="file"] {
-        display: none;
-    }
-    
-    .center {
-        padding: 40px 15px;
-        text-align: center;
-    }
-    
-    .cropstuff {
-        display: none;
-    }
-    .textstuff{
-        display: none;
-    }
-    
-    textarea {
-        resize: none;
-    }
-    </style>
+    <link rel="stylesheet" type="text/css" href="css/page.css" />
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 </head>
 
@@ -89,7 +27,7 @@
         <div class="container">VH1</div>
     </div>
     <div class="topbar2">
-        <div class="container" style="min-width:600px">News Instagram Generator ALPHA</div>
+        <div class="container" style="min-width:600px">News Instagram Generator Beta</div>
     </div>
     <div class="container center jumbotron" id="main">
         <h1>Drag and Drop an Image <BR>OR:</h1>
@@ -99,7 +37,10 @@
         <input id="file-upload" type="file" onchange="loadImage()">
     </div>
     <div class="container center" id="preview" style="display:none">
-        <img id="previewImage" style="max-height:500px; display:inline" src="" class="img-responsive" alt="Image preview...">
+
+        <br>
+        <div class="imgcon">
+            <img id="previewImage" style="height:500px; display:inline" src="" alt="Image preview..."></div>
         <br>
         <br>
         <span class="cropstuff">Image Is not Square, Please Crop</span>
@@ -108,18 +49,37 @@
         <button class="btn btn-primary cropstuff" id="crop" style="display:none">Crop Image</button>
         <br>
         <br>
-         <span class="textstuff">Put your text, the click to make it</span><br><br>
+        <span class="textstuff">Put your text, the click color to make it</span>
+        <br>
+        <br>
         <textarea class="textstuff" id="textInput" wrap="hard" rows=3 style="display:none; width:317.037037037px; text-align:center"></textarea>
         <br>
         <br>
-        <button class="textstuff" style="display:none" class="btn btn-primary" id="makeText">Make Text</button>
+        <div class="btn-group" role="group" aria-label="...">
+            <button type="button" class="btn btn-default">
+                <div class="cbox" style="background-color: #1e3a67" onclick="setColor(0)"></div>
+            </button>
+            <button type="button" class="btn btn-default">
+                <div class="cbox" style="background-color: #269888" onclick="setColor(1)"></div>
+            </button>
+            <button type="button" class="btn btn-default">
+                <div class="cbox" style="background-color: #e33e7d" onclick="setColor(2)"></div>
+            </button>
+            <button type="button" class="btn btn-default">
+                <div class="cbox" style="background-color: #ca323a" onclick="setColor(3)"></div>
+            </button>
+            <button type="button" class="btn btn-default">
+                <div class="cbox" style="background-color: #fab63b" onclick="setColor(4)"></div>
+            </button>
+            <button type="button" class="btn btn-default">
+                <div class="cbox" style="background-color: #71cbd9" onclick="setColor(5)"></div>
+            </button>
+
+
+        </div>
     </div>
     <div class="container center" id="outputdiv"></div>
-    <br>
-    <input type="hidden" name="x1" value="" style="display:none" />
-    <input type="hidden" name="y1" value="" style="display:none" />
-    <input type="hidden" name="x2" value="" style="display:none" />
-    <input type="hidden" name="y2" value="" style="display:none" />
+
 
     <canvas id="thecanvas"></canvas>
     </div>
@@ -128,6 +88,10 @@
     <script src="js/jquery-3.1.0.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/jquery.imgareaselect.min.js"></script>
+    <script src="js/jquery-ui.min.js"></script>
+    <script src="js/jquery.ui.touch-punch.min.js"></script>
+    <script src="js/jquery.mousewheel.min.js"></script>
+
     <script src="js/main.js"></script>
 
 
