@@ -15,6 +15,17 @@
         font-family: replica;
     }
     
+    .mobileBlackout {
+        display: none;
+        background: #FFF;
+        width: 100%;
+        height: 100%;
+        z-index: 10000000000000;
+        top: 0;
+        left: 0;
+        position: fixed;
+    }
+    
     .output {
         max-width: 500px;
     }
@@ -51,25 +62,26 @@
     .cropstuff {
         display: none;
     }
-    .textstuff{
+    
+    .textstuff {
         display: none;
-
     }
     
     textarea {
         resize: none;
-                outline: 1px solid black;
+        outline: 1px solid black;
     }
-    .imgcon
-    {
+    
+    .imgcon {
         width: 500px;
         height: 500px;
         margin: auto;
-        background-color: pink;
+        background-image: url("../images/gridani.gif");
+        background-repeat: repeat;
         overflow: hidden;
     }
-    .cbox
-    {
+    
+    .cbox {
         width: 50px;
         height: 50px;
         background-color: green;

@@ -11,7 +11,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>VH1 NEWS INSTAGRAM IMAGE GENERATOR</title>
     <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
     <link rel="stylesheet" type="text/css" href="css/imgareaselect-animated.css" />
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="css/page.css" />
@@ -22,17 +22,23 @@
     <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-
+    <div class="container center mobileBlackout">
+        <br>
+        <br>
+        <br>
+        <br>
+        <br> Sorry Bro, the page doesn't work on mobile yet.
+    </div>
     <div class="topbar1">
         <div class="container">VH1</div>
     </div>
     <div class="topbar2">
         <div class="container" style="min-width:600px">News Instagram Generator Beta</div>
     </div>
-    <div class="container center jumbotron" id="main">
-        <h1>Drag and Drop an Image <BR>OR:</h1>
-        <label for="file-upload" class="btn btn-primary btn-lg">
-            <h1><span class="glyphicon glyphicon-upload" aria-hidden="true"></span>&nbsp;Upload Image</h1>
+    <div class="container center jumbotron" id="main" style="background-color:#fff">
+        <h2>Drag and Drop an Image <BR>OR:</h2>
+        <label for="file-upload" class="btn btn-primary">
+            <h2><span class="glyphicon glyphicon-upload" aria-hidden="true"></span>&nbsp;Upload Image</h2>
         </label>
         <input id="file-upload" type="file" onchange="loadImage()">
     </div>
@@ -40,10 +46,10 @@
 
         <br>
         <div class="imgcon">
-            <img id="previewImage" style="height:500px; display:inline" src="" alt="Image preview..."></div>
+            <img id="previewImage" style="height:500px; display:inline; position: relative; left: 0px; top: 0px" src="" alt="Image preview..."></div>
         <br>
         <br>
-        <span class="cropstuff">Image Is not Square, Please Crop</span>
+        <span class="cropstuff">Image Is not Square, Please Crop. <b>Use drag to move, scroll to zoom.</b></span>
         <br>
         <br>
         <button class="btn btn-primary cropstuff" id="crop" style="display:none">Crop Image</button>
@@ -55,43 +61,44 @@
         <textarea class="textstuff" id="textInput" wrap="hard" rows=3 style="display:none; width:317.037037037px; text-align:center"></textarea>
         <br>
         <br>
-        <div class="btn-group" role="group" aria-label="...">
-            <button type="button" class="btn btn-default">
-                <div class="cbox" style="background-color: #1e3a67" onclick="setColor(0)"></div>
+        <div class="btn-group textstuff" role="group" aria-label="...">
+            <button type="button" class="btn btn-default cbuto">
+                <div class="cbox" style="background-color: #1e3a67" value="0"></div>
             </button>
-            <button type="button" class="btn btn-default">
-                <div class="cbox" style="background-color: #269888" onclick="setColor(1)"></div>
+            <button type="button" class="btn btn-default cbuto">
+                <div class="cbox" style="background-color: #269888" value="1"></div>
             </button>
-            <button type="button" class="btn btn-default">
-                <div class="cbox" style="background-color: #e33e7d" onclick="setColor(2)"></div>
+            <button type="button" class="btn btn-default cbuto">
+                <div class="cbox" style="background-color: #e33e7d" value="2"></div>
             </button>
-            <button type="button" class="btn btn-default">
-                <div class="cbox" style="background-color: #ca323a" onclick="setColor(3)"></div>
+            <button type="button" class="btn btn-default cbuto">
+                <div class="cbox" style="background-color: #ca323a" value="3"></div>
             </button>
-            <button type="button" class="btn btn-default">
-                <div class="cbox" style="background-color: #fab63b" onclick="setColor(4)"></div>
+            <button type="button" class="btn btn-default cbuto">
+                <div class="cbox" style="background-color: #fab63b" value="4"></div>
             </button>
-            <button type="button" class="btn btn-default">
-                <div class="cbox" style="background-color: #71cbd9" onclick="setColor(5)"></div>
+            <button type="button" class="btn btn-default cbuto">
+                <div class="cbox" style="background-color: #71cbd9" value="5"></div>
             </button>
-
-
         </div>
-    </div>
-    <div class="container center" id="outputdiv"></div>
+        <br>
+        <br>
+        <div class="textstuff">
+            <button class="btn" id="download">Download</button>
+        </div>
+        <div class="container center" id="outputdiv"></div>
 
 
-    <canvas id="thecanvas"></canvas>
+        <canvas id="thecanvas"></canvas>
     </div>
 
 
     <script src="js/jquery-3.1.0.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
-    <script src="js/jquery.imgareaselect.min.js"></script>
     <script src="js/jquery-ui.min.js"></script>
-    <script src="js/jquery.ui.touch-punch.min.js"></script>
     <script src="js/jquery.mousewheel.min.js"></script>
-
+    <script src="js/hammer.min.js"></script>
+    <script src="js/download.js"></script>
     <script src="js/main.js"></script>
 
 
