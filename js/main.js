@@ -89,8 +89,8 @@ function wrapText(context, text, x, y, maxWidth) {
         line = '';
         x = oldx;
         console.log("calculated line count is" + linecount);
-        y = linecount === 0 ? oldy + lineHeight : linecount === 1 ? oldy + (lineHeight / 2.2) : oldy + (lineHeight / 3.3);
-        console.log("y position is " + y)
+        y = linecount === 0 ? oldy + lineHeight : linecount === 1 ? oldy + (lineHeight / 2) : linecount === 2 ? oldy + (lineHeight / 1.3) : oldy + (lineHeight / 3);
+        console.log("y position is " + y +"with linecount of " + linecount);
         for (var n = 0; n < words.length; n++) {
             if (words[n] === "\n\r" || words[n] === "\n") {
                 words[n] = "";
@@ -156,16 +156,6 @@ function loadImage(file) {
 
             }
             console.log(cropman);
-            // $("#previewImage").imgAreaSelect({
-            //     aspectRatio: '1:1',
-            //     handles: true,
-            //     onSelectEnd: function(preview, selection) {
-            //         $('input[name="x1"]').val(selection.x1);
-            //         $('input[name="y1"]').val(selection.y1);
-            //         $('input[name="x2"]').val(selection.x2);
-            //         $('input[name="y2"]').val(selection.y2);
-            //     }
-            // });
             resizing = true;
             if (!isMobile) {
                 $("#previewImage").draggable();
