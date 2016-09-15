@@ -4,7 +4,7 @@ $text = $_POST["theText"];
 
 $tmpfname = tempnam("/temp", "FOO");
 
-exec("convert -size 987x214 -background transparent -fill \"#000000\" -font VH1Replica-Bold.ttf -gravity north caption:\"".$text."\" png:".$tmpfname);
+exec("convert -size 987x214 -background transparent -fill \"#FFFFFF\" -font VH1Replica-Bold.ttf -gravity Center caption:\"".$text."\" png:".$tmpfname);
 
 $fp = fopen($tmpfname, 'rb');
 

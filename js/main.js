@@ -6,7 +6,6 @@ var working = false;
 var thecolor = 0;
 var colorselect = new Array("blue_OVERLAY.png", "teal_OVERLAY.png", "pink_OVERLAY.png", "red_OVERLAY.png", "yellow_OVERLAY.png", "sky_OVERLAY.png");
 var colorselectb = new Array("blue_BOX.png", "teal_BOX.png", "pink_BOX.png", "red_BOX.png", "yellow_BOX.png", "sky_BOX.png");
-
 var resizing = false;
 var isMobile = false;
 if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
@@ -15,13 +14,11 @@ if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(naviga
     $(".mobileBlackout").fadeIn();
 }
 
-function wrapText(context, text, x, y, maxWidth) {
+function makeText(context, text, x, y, maxWidth) {
     console.log("eah");
     var breakError = false;
-
     var img1 = new Image();
-
-    //drawing of the test image - img1
+    var img2 = new Image();
     if (text !== "") {
         img1.src = 'images/' + colorselect[thecolor];
     } else {
@@ -29,97 +26,17 @@ function wrapText(context, text, x, y, maxWidth) {
     }
     img1.onload = function() {
         context.drawImage(img1, 0, 0, canvas.width, canvas.height);
-        context.textAlign = "center";
-        context.textBaseline = "hanging";
 
-        var words = text.split(' ');
-        var line = '';
-        var oldx = x;
-        var oldy = y;
-        var linecount;
-        var newlinec = false;
-        fontsize = 100 * (imgSize / 1080);
-        do {
-            x = oldx;
-            y = oldy;
-            linecount = 0;
-            fontsize -= 2;
-            lineHeight = fontsize + 2;
-            context.font = fontsize + "px replica";
-            context.fillStyle = 'white';
-            for (var n = 0; n < words.length; n++) {
-                //console.log(words[n]);
-                if (words[n] === "\n\r" || words[n] === "\n") {
-                    newlinec = true;
-                    console.log("new Line Character " + words[n]);
-                } else {
-                    var testLine = line + words[n] + ' ';
-                    var metrics = context.measureText(testLine);
-                    var testWidth = metrics.width;
-                }
-                if (testWidth > maxWidth && n > 0 || newlinec === true) {
-                    linecount++;
-                    //   console.log("current linecountt " + linecount);
-                    if (!newlinec) {
-                        line = words[n] + ' ';
-                    } else {
-                        line = '';
-                        newlinec = false;
-                    }
-                    y += lineHeight;
-                } else {
-                    line = testLine;
-                }
-            }
-            console.log(fontsize + "fontsize linecount" + linecount);
+        $.post("js/textgen.php", { theText: text.replace('"', '\"') })
+            .done(function(data) {
+                console.log(data);
+                img2.src = "data:image/png;base64," + data;
+            });
+    };
 
-            if (fontsize < 1) {
-                console.log("error");
-                breakError = true;
-                break;
-            }
-        } while (linecount > 3 || linecount >= 2 && fontsize > 75);
-        if (breakError) {
-            console.log("there was a loop error")
-            return;
-        }
-
-        words = text.split(' ');
-
-        line = '';
-        x = oldx;
-        console.log("calculated line count is" + linecount);
-        y = linecount === 0 ? oldy + lineHeight : linecount === 1 ? oldy + (lineHeight / 2) : linecount === 2 ? oldy + (lineHeight / 1.3) : oldy + (lineHeight / 3);
-        console.log("y position is " + y +"with linecount of " + linecount);
-        for (var n = 0; n < words.length; n++) {
-            if (words[n] === "\n\r" || words[n] === "\n") {
-                words[n] = "";
-                newlinec = true;
-            } else {
-                var testLine = line + words[n] + ' ';
-                var metrics = context.measureText(testLine);
-                var testWidth = metrics.width;
-            }
-            if (testWidth > maxWidth && n > 0 || newlinec === true) {
-
-                context.fillText(line, x, y);
-                linecount++;
-                console.log("current linecoun final " + linecount);
-                if (!newlinec) {
-                    line = words[n] + ' ';
-                } else {
-                    line = '';
-                    newlinec = false;
-                }
-                y += lineHeight;
-            } else {
-                line = testLine;
-            }
-
-        }
-
-        context.fillText(line, x, y);
-        var finalimage = canvas.toDataURL();
+    img2.onload = function() {
+        context.drawImage(img2, 46, 821);
+        var finalimage = canvas.toDataURL("image/jpeg");
         var img = document.getElementById("previewImage");
         img.src = finalimage;
 
@@ -155,7 +72,6 @@ function loadImage(file) {
                 canvas.height = preview.naturalWidth
 
             }
-            console.log(cropman);
             resizing = true;
             if (!isMobile) {
                 $("#previewImage").draggable();
@@ -183,9 +99,7 @@ function loadImage(file) {
 
                 });
             } else {
-
                 currenth = parseInt($("#previewImage").css("height"));
-
                 var scale = 0;
                 var lastmoveX = 0;
                 var lastmoveY = 0;
@@ -317,7 +231,7 @@ $(document).ready(function() {
 
     $("#download").on('click', function() {
 
-        download($("#previewImage").attr('src'), $("#textInput").val() + ".png", "image/png");
+        download($("#previewImage").attr('src'), $("#textInput").val().replace(" ", "-") + ".jpg", "image/jpg");
 
     });
 
@@ -325,13 +239,13 @@ $(document).ready(function() {
         e.stopPropagation();
         thecolor = $(this).find(".cbox").attr("value");
         console.log("hi " + thecolor);
-        wrapText(context, $("#textInput").val().replace(new RegExp("\n", "g"), " \n "), 540, 800, 1000);
+        makeText(context, $("#textInput").val().replace(new RegExp("\n", "g"), " \n "), 540, 800, 1000);
         return false;
     });
 
     $("#makeText").on("click", function() {
 
-        wrapText(context, $("#textInput").val().replace(new RegExp("\n", "g"), " \n "), 550 * (imgSize / 1080), 780 * (imgSize / 1080), 856 * (imgSize / 1080));
+        makeText(context, $("#textInput").val().replace(new RegExp("\n", "g"), " \n "), 550 * (imgSize / 1080), 780 * (imgSize / 1080), 856 * (imgSize / 1080));
 
     });
 
