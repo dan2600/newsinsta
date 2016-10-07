@@ -1,22 +1,31 @@
+//Yay For Globals
 var sizeRatio;
 var imgSize;
+var imgtype = "0";
 var canvas = document.getElementById("thecanvas");
 var context = canvas.getContext("2d");
 var working = false;
+var imgZoneSize = 500;
 var thecolor = 0;
-var colorselect = new Array("blue_OVERLAY.png", "teal_OVERLAY.png", "pink_OVERLAY.png", "red_OVERLAY.png", "yellow_OVERLAY.png", "sky_OVERLAY.png");
-var colorselectb = new Array("blue_BOX.png", "teal_BOX.png", "pink_BOX.png", "red_BOX.png", "yellow_BOX.png", "sky_BOX.png");
+var colorselect = new Array("blue_OVERLAY.png", "teal_OVERLAY.png", "pink_OVERLAY.png", "red_OVERLAY.png", "yellow_OVERLAY.png", "sky_OVERLAY.png", "meme_OVERLAY.png");
+var colorselectb = new Array("blue_BOX.png", "teal_BOX.png", "pink_BOX.png", "red_BOX.png", "yellow_BOX.png", "sky_BOX.png", "meme_BOX.png");
+var colorselectqt = new Array("blue_quote.png", "teal_quote.png", "pink_quote.png", "red_quote.png", "yellow_quote.png", "sky_quote.png");
 var resizing = false;
 var isMobile = false;
+
+//Mobile Phone Check
 if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
     isMobile = true;
-    console.log("Mobile Mode");
-    $(".mobileBlackout").fadeIn();
-}
+    $("#dad").hide();
+    imgZoneSize = 250;
+    $("#previewImage, #blackout, #loading, .imgcon").css("width", "250px").css("height", "250px");
+  //  $(".mobileBlackout").fadeIn();
+};
 
+//I Should have made objects, but whatever, deal with these functions... ;)
+//This One Makes the Text / Color Boxes if you don't type text.
 function makeText(context, text, x, y, maxWidth) {
-    console.log("eah");
-    var breakError = false;
+    $("#loading").fadeIn(50);
     var img1 = new Image();
     var img2 = new Image();
     if (text !== "") {
@@ -25,21 +34,43 @@ function makeText(context, text, x, y, maxWidth) {
         img1.src = 'images/' + colorselectb[thecolor];
     }
     img1.onload = function() {
-        context.drawImage(img1, 0, 0, canvas.width, canvas.height);
 
-        $.post("js/textgen.php", { theText: text.replace('"', '\"') })
-            .done(function(data) {
-                console.log(data);
-                img2.src = "data:image/png;base64," + data;
-            });
+        context.drawImage(img1, 0, 0, canvas.width, canvas.height);
+        if (text !== "") {
+            var processor = "js/textgen.php";
+            if (imgtype === "1") {
+                processor = "js/textgenqt.php";
+            }
+            if (imgtype === "2") {
+                processor = "js/textgenmeme.php";
+            }
+
+            $.post(processor, { theText: text.replace('"', '\"') })
+                .done(function(data) {
+
+                    img2.src = "data:image/png;base64," + data;
+                });
+        } else {
+
+            var finalimage = canvas.toDataURL("image/jpeg");
+            var img = document.getElementById("previewImage");
+            img.src = finalimage;
+            $("#loading").fadeOut();
+        }
     };
 
     img2.onload = function() {
-        context.drawImage(img2, 46, 821);
+        if (imgtype === "0") {
+            context.drawImage(img2, 46, 821);
+        } else if (imgtype === "1") {
+            context.drawImage(img2, 515, 176);
+        } else if (imgtype === "2") {
+            context.drawImage(img2, 64, 50);
+        }
         var finalimage = canvas.toDataURL("image/jpeg");
         var img = document.getElementById("previewImage");
         img.src = finalimage;
-
+        $("#loading").fadeOut();
     };
 }
 
@@ -47,7 +78,7 @@ function loadImage(file) {
     working = true;
     var needcrop = false;
     var preview = document.getElementById('previewImage');
-    preview.onLoad = function() { console.log("loaded Image") };
+    preview.onLoad = function() { };
     if (!file) {
         var file = document.querySelector('input[type=file]').files[0];
     }
@@ -58,10 +89,13 @@ function loadImage(file) {
         preview.src = reader.result;
 
         if (preview.naturalWidth / preview.naturalHeight != 1) {
+            if (imgtype === "1") {
+                $("#blackout").show();
+            }
             needcrop = true;
             $(".cropstuff").show();
             sizeRatio = preview.naturalWidth / preview.width;
-            console.log("image is not square, please crop");
+
             if (preview.width > preview.height) {
                 cropman = preview.height;
                 canvas.width = preview.naturalHeight;
@@ -80,14 +114,16 @@ function loadImage(file) {
                     if (parseInt($("#previewImage").css("top")) > 0) {
                         $("#previewImage").css("top", "0px")
                     }
-                    if (parseInt($("#previewImage").css("top")) < 500 - parseInt($("#previewImage").css("height"))) {
-                        $("#previewImage").css("top", 500 - parseInt($("#previewImage").css("height")) + "px")
+                    if (parseInt($("#previewImage").css("top")) < imgZoneSize - parseInt($("#previewImage").css("height"))) {
+                        $("#previewImage").css("top", imgZoneSize - parseInt($("#previewImage").css("height")) + "px")
                     }
-                    if (parseInt($("#previewImage").css("left")) > 0) {
-                        $("#previewImage").css("left", "0px")
-                    }
-                    if (parseInt($("#previewImage").css("left")) < 500 - parseInt($("#previewImage").css("width"))) {
-                        $("#previewImage").css("left", 500 - parseInt($("#previewImage").css("width")) + "px")
+                    if (imgtype != "1") {
+                        if (parseInt($("#previewImage").css("left")) > 0) {
+                            $("#previewImage").css("left", "0px")
+                        }
+                        if (parseInt($("#previewImage").css("left")) < imgZoneSize - parseInt($("#previewImage").css("width"))) {
+                            $("#previewImage").css("left", imgZoneSize - parseInt($("#previewImage").css("width")) + "px")
+                        }
                     }
                 });
 
@@ -123,26 +159,11 @@ function loadImage(file) {
                 hammertime.on('pan', function(ev) {
                     currentX = parseInt($("#previewImage").css("left"));
                     currentY = parseInt($("#previewImage").css("top"));
-                    console.log(lastmoveX + ev.deltaX)
-                    console.log(lastmoveY + ev.deltaY)
-                    console.log(ev.velocityX);
-
-                    // if (lastmoveX > ev.deltaX + 10) {
-                    //     lastmoveX = ev.deltaX;
-                    //     currentX = currentX -= 2;
-
-                    // } else if(lastmoveX > ev.deltaX - 10) {
-                    //     lastmoveX = ev.deltaX;
-                    //     currentX = currentX += 2;
-
-                    // }
-
                     $("#previewImage").css("left", currentX + ev.velocityX * 10 + "px").css("top", currentY + ev.velocityY * 10 + "px");
 
                 });
             }
         } else {
-            console.log("square");
             imgSize = preview.naturalWidth;
             imageToCanvas(0, 0, preview.naturalWidth);
         };
@@ -155,7 +176,6 @@ function loadImage(file) {
                 var bob = preview.height - 1;
                 if (needcrop === true) {
                     $(".cropstuff").show();
-                    // $("#previewImage").imgAreaSelect({ x1: 0, x2: bob, y1: 0, y2: bob })
                 }
             });
         });
@@ -164,16 +184,48 @@ function loadImage(file) {
 }
 //fix the ratio shit
 function imageToCanvas(offX, offY, size, cropped) {
-    console.log("thesize is " + size)
+    $("#loading").fadeIn(50);
+    if (imgtype === "0") {
+        $("#headline").show();
+        $("#meme").hide();
+    }
+
+    if (imgtype === "1") {
+        $("#blackout").hide();
+    }
+    if (imgtype === "2") {
+        $("#headline").hide();
+        $("#meme").show();
+    }
     var ratio = 1;
 
-    console.log("oversize");
     var backCanvas = document.createElement('canvas');
     var backCtx = backCanvas.getContext('2d');
     backCanvas.width = size;
     backCanvas.height = size;
     var img = document.getElementById("previewImage");
     backCtx.drawImage(img, offX * ratio, offY * ratio);
+
+
+    //greyscale logic
+    if ($("#bwbox").is(":checked")) {
+        var imageData = backCtx.getImageData(0, 0, 1080, 1080);
+        var data = imageData.data;
+
+        for (var i = 0; i < data.length; i += 4) {
+            var brightness = 0.34 * data[i] + 0.5 * data[i + 1] + 0.16 * data[i + 2];
+            // red
+            data[i] = brightness;
+            // green
+            data[i + 1] = brightness;
+            // blue
+            data[i + 2] = brightness;
+        }
+
+        // overwrite original image
+        backCtx.putImageData(imageData, 0, 0);
+    }
+
     canvas.width = 1080;
     canvas.height = 1080;
     size = 1080;
@@ -188,21 +240,25 @@ function imageToCanvas(offX, offY, size, cropped) {
         context.drawImage(img1, 0, 0, size, size);
         var img = document.getElementById("previewImage");
         if (cropped) {
-            console.log("croppin");
             $(".cropstuff").hide();
 
         };
         $(".textstuff").show().css('display', 'inline-block');
         img.src = canvas.toDataURL();
+        $("#loading").fadeOut();
     };
 
     $("#previewImage").css("left", "0px");
     $("#previewImage").css("top", "0px");
-    $("#previewImage").css("height", "500px");
+    $("#previewImage").css("height", imgZoneSize+"px");
     if (resizing && !isMobile) {
         $("#previewImage").draggable('disable');
     }
     $("#previewImage").off('mousewheel');
+    if (imgtype === "1") {
+        colorselect = colorselectqt;
+        colorselectb = colorselectqt;
+    }
     img1.src = 'images/' + colorselectb[thecolor];
 
 }
@@ -224,7 +280,6 @@ $(document).ready(function() {
                 e.stopPropagation();
                 /*UPLOAD FILES HERE*/
                 loadImage(e.originalEvent.dataTransfer.files[0]);
-                console.log(e.originalEvent.dataTransfer.files[0]);
             }
         }
     });
@@ -238,8 +293,7 @@ $(document).ready(function() {
     $(".cbuto").click(function(e) {
         e.stopPropagation();
         thecolor = $(this).find(".cbox").attr("value");
-        console.log("hi " + thecolor);
-        makeText(context, $("#textInput").val().replace(new RegExp("\n", "g"), " \n "), 540, 800, 1000);
+        makeText(context, $("#textInput").val().replace(new RegExp("\n", "g"), " \n"), 540, 800, 1000);
         return false;
     });
 
@@ -252,15 +306,11 @@ $(document).ready(function() {
     $("#crop").on('click', function() {
         var img = document.getElementById('previewImage');
         sizeRatio = img.naturalWidth / img.width;
-
         var Xcrop = (parseInt($("#previewImage").css("left"))) * sizeRatio;
         var Ycrop = (parseInt($("#previewImage").css("top"))) * sizeRatio;
-        var Size = (parseInt($("#previewImage").css("height")) - (parseInt($("#previewImage").css("height")) - 500)) * sizeRatio;
+        var Size = (parseInt($("#previewImage").css("height")) - (parseInt($("#previewImage").css("height")) - imgZoneSize)) * sizeRatio;
         imgSize = Size;
-        console.log(Xcrop + ":x " + Ycrop + ":y s:" + Size)
-
         imageToCanvas(Xcrop, Ycrop, Size, true);
-
     });
-
+    $('input[name="optradio"]').click(function() { imgtype = $('input[name="optradio"]:checked').val() });
 });

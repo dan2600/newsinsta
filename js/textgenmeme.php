@@ -2,10 +2,9 @@
 
 $text = $_POST["theText"];
 
-
 $tmpfname = tempnam("/temp", "FOO");
 
-exec("convert -size 987x214 -background transparent -fill \"#FFFFFF\" -font VH1Replica-Bold.ttf -gravity Center -interline-spacing -10 caption:\"".$text."\" png:".$tmpfname);
+exec("convert -size 958x250 -background transparent -fill \"#000000\" -font PNXBOLD.ttf -kerning -2  -interline-spacing -24 -gravity Center caption:\"".$text."\" png:".$tmpfname);
 
 $fp = fopen($tmpfname, 'rb');
 
