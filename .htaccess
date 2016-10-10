@@ -1,0 +1,5 @@
+<ifModule mod_headers.c>
+    Header set Connection keep-alive
+    Header unset ETag
+	FileETag None
+</ifModule>

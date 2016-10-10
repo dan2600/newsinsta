@@ -18,7 +18,8 @@ if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(naviga
     isMobile = true;
     $("#dad").hide();
     imgZoneSize = 250;
-    $("#previewImage, #blackout, #loading, .imgcon").css("width", "250px").css("height", "250px");
+    $("#blackout, #loading, #loading img, .imgcon").css("width", "250px").css("height", "250px");
+    $("textarea").css("width", "300px");
   //  $(".mobileBlackout").fadeIn();
 };
 
@@ -143,23 +144,57 @@ function loadImage(file) {
                 var hammertime = new Hammer(myElement);
                 hammertime.get('pinch').set({ enable: true });
                 hammertime.on('pinch', function(ev) {
-
-                    if (scale > ev.scale) {
-                        scale = ev.scale;
-                        currenth = currenth += 5;
-                        $("#previewImage").css("height", currenth + "px");
-                    } else {
-                        scale = ev.scale;
-                        currenth = currenth -= 5;
-                        $("#previewImage").css("height", currenth + "px");
-                    }
+                    $("#previewImage").css("height", currenth*ev.scale + "px");
+                    // if (scale > ev.scale) {
+                    //     scale = ev.scale;
+                    //     //currenth = currenth -= 3;
+                    //     $("#previewImage").css("height", currenth + "px");
+                    // } else {
+                    //     scale = ev.scale;
+                    //     currenth = currenth += 3;
+                    //     $("#previewImage").css("height", currenth + "px");
+                    // }
 
                 });
+                hammertime.on("pinchend", function(ev){
+                    currenth = parseInt($("#previewImage").css("height"));
 
-                hammertime.on('pan', function(ev) {
+                });
+var currentX;
+var currentY;
+
+                    hammertime.on( "panstart", function( e ) {
                     currentX = parseInt($("#previewImage").css("left"));
                     currentY = parseInt($("#previewImage").css("top"));
-                    $("#previewImage").css("left", currentX + ev.velocityX * 10 + "px").css("top", currentY + ev.velocityY * 10 + "px");
+    } );
+
+                hammertime.on('pan', function(ev) {
+                     var deltaX = currentX + ev.deltaX;
+                      var deltaY = currentY + ev.deltaY;
+
+                    $("#previewImage").css("left", deltaX + "px").css("top", deltaY + "px");
+
+               });
+            
+
+                hammertime.on('panend pinchend', function(){
+
+                                        if (parseInt($("#previewImage").css("top")) > 0) {
+                        $("#previewImage").css("top", "0px")
+                    }
+                    if (parseInt($("#previewImage").css("top")) < imgZoneSize - parseInt($("#previewImage").css("height"))) {
+                        $("#previewImage").css("top", imgZoneSize - parseInt($("#previewImage").css("height")) + "px")
+                    }
+                    if (imgtype != "1") {
+                        if (parseInt($("#previewImage").css("left")) > 0) {
+                            $("#previewImage").css("left", "0px")
+                        }
+                        if (parseInt($("#previewImage").css("left")) < imgZoneSize - parseInt($("#previewImage").css("width"))) {
+                            $("#previewImage").css("left", imgZoneSize - parseInt($("#previewImage").css("width")) + "px")
+                        }
+                    }
+
+
 
                 });
             }
@@ -209,7 +244,7 @@ function imageToCanvas(offX, offY, size, cropped) {
 
     //greyscale logic
     if ($("#bwbox").is(":checked")) {
-        var imageData = backCtx.getImageData(0, 0, 1080, 1080);
+        var imageData = backCtx.getImageData(0, 0, size, size);
         var data = imageData.data;
 
         for (var i = 0; i < data.length; i += 4) {
