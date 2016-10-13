@@ -10,8 +10,10 @@ var thecolor = 0;
 var colorselect = new Array("blue_OVERLAY.png", "teal_OVERLAY.png", "pink_OVERLAY.png", "red_OVERLAY.png", "yellow_OVERLAY.png", "sky_OVERLAY.png", "meme_OVERLAY.png");
 var colorselectb = new Array("blue_BOX.png", "teal_BOX.png", "pink_BOX.png", "red_BOX.png", "yellow_BOX.png", "sky_BOX.png", "meme_BOX.png");
 var colorselectqt = new Array("blue_quote.png", "teal_quote.png", "pink_quote.png", "red_quote.png", "yellow_quote.png", "sky_quote.png");
+var colorselectbday = new Array("bday1.png", "bday2.png", "bday3.png", "bday4.png");
 var resizing = false;
 var isMobile = false;
+var backimage;
 
 //Mobile Phone Check
 if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
@@ -26,12 +28,21 @@ if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(naviga
 //I Should have made objects, but whatever, deal with these functions... ;)
 //This One Makes the Text / Color Boxes if you don't type text.
 function makeText(context, text, x, y, maxWidth) {
+
     $("#loading").fadeIn(50);
+    context.putImageData(backimage, 0, 0);
     var img1 = new Image();
     var img2 = new Image();
-    if (text !== "") {
+    if (text !== "" && imgtype != "3") {
+
         img1.src = 'images/' + colorselect[thecolor];
-    } else {
+    } else if (text == "" && imgtype === "3") 
+{
+
+   img1.src = 'images/' + colorselectbday[thecolor];
+}
+    else {
+
         img1.src = 'images/' + colorselectb[thecolor];
     }
     img1.onload = function() {
@@ -232,6 +243,7 @@ function imageToCanvas(offX, offY, size, cropped) {
         $("#headline").hide();
         $("#meme").show();
     }
+
     var ratio = 1;
 
     var backCanvas = document.createElement('canvas');
@@ -267,6 +279,10 @@ function imageToCanvas(offX, offY, size, cropped) {
     sizeRatio = 1;
     imgSize = 1080;
     context.drawImage(backCanvas, 0, 0, 1080, 1080);
+        if(!backimage)
+    {
+        backimage = context.getImageData(0, 0, 1080, 1080);
+    }
 
     var img1 = new Image();
 
@@ -279,6 +295,11 @@ function imageToCanvas(offX, offY, size, cropped) {
 
         };
         $(".textstuff").show().css('display', 'inline-block');
+                if(imgtype === "3")
+    {
+       $("#textInput").hide();
+        $(".notbox").hide();
+    }
         img.src = canvas.toDataURL();
         $("#loading").fadeOut();
     };
@@ -294,7 +315,8 @@ function imageToCanvas(offX, offY, size, cropped) {
         colorselect = colorselectqt;
         colorselectb = colorselectqt;
     }
-    img1.src = 'images/' + colorselectb[thecolor];
+
+    img1.src = 'images/cleartest.png';
 
 }
 
@@ -320,8 +342,13 @@ $(document).ready(function() {
     });
 
     $("#download").on('click', function() {
+        var bob = $("#textInput").val();
+        if(!bob)
+        {
+            bob = (Math.floor(Math.random()*10000)).toString();
+        }
 
-        download($("#previewImage").attr('src'), $("#textInput").val().replace(" ", "-") + ".jpg", "image/jpg");
+        download($("#previewImage").attr('src'), bob.replace(" ", "-") + ".jpg", "image/jpg");
 
     });
 
