@@ -14,8 +14,8 @@ $tmpfname = tempnam("/temp", "FOO");
 
 $cmd = "convert -background transparent -fill '".$color."' -font '../fonts/".$theFont."' -pointsize ".$pontsize." label:".$text." png:- | convert - -background transparent -rotate 1.5 png:".$tmpfname;
 
-echo exec($cmd);
-
+exec($cmd);
+echo $cmd;
 //$fp = fopen($tmpfname, 'rb');
 
 //header("Content-Type: image/png");
