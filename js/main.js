@@ -381,6 +381,7 @@ $("#makeCard").click(function(){
  img3.onload = function() {
 context.drawImage(img3, name2x[radioval], name2y[radioval]);
 img.src = canvas.toDataURL();
+$("#previewImage").show();
  };
 
 }

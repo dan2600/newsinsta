@@ -83,11 +83,15 @@ From <input id="fromInput" type="text">
 
 <button id="makeCard">Make Card</button>
            
+
+<img id=previewImage style="height:500px; display:none; width:600px; height:600px" src alt="Image preview...">
+
+
     <div class="container center" id=preview style=display:none>
         <br>
         <div class=imgcon>
             <div id=loading style="height:500px; width:500px; position: absolute; top:0px; left:0px; background-color: white; z-index: 200;"><img src=images/ripple.svg style=width:500px></div>
-            <div id=blackout style="height:500px; width:500px; position: absolute; top:0px; left:213px; background-color: black; z-index: 100; pointer-events: none; opacity: 0.8; filter: alpha(opacity=80);"></div> <img id=previewImage style="height:500px; display:inline; position: relative; left: 0px; top: 0px" src alt="Image preview..."></div> <span class=cropstuff> <br><br>Image Is not Square, Please Crop. <b>Use drag to move, scroll to zoom.</b><br><br></span>
+            <div id=blackout style="height:500px; width:500px; position: absolute; top:0px; left:213px; background-color: black; z-index: 100; pointer-events: none; opacity: 0.8; filter: alpha(opacity=80);"></div> </div> <span class=cropstuff> <br><br>Image Is not Square, Please Crop. <b>Use drag to move, scroll to zoom.</b><br><br></span>
         <button class="btn btn-primary cropstuff" id=crop style=display:none>Crop Image</button> <span class=textstuff><br><br>Put your text, the click color to make it</span>
         <br>
         <br>
