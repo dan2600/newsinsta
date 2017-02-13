@@ -12,7 +12,7 @@ $theFont = "EamesCenturyModern-Bold.otf";
 $tmpfname = tempnam("/temp", "FOO");
 
 
-$cmd = "convert -background transparent -fill '".$color."' -font '".$theFont."' -pointsize ".$pontsize." label:'".$text."' png:".$tmpfname." | convert ".$tmpfname." -background transparent -rotate 1.5 png:".$tmpfname;
+$cmd = "convert  -background transparent -fill '".$color."' -font '".$theFont."' -pointsize ".$pontsize." label:'".$text."' png:".$tmpfname." | convert ".$tmpfname." -background transparent -rotate 1.5 png:".$tmpfname;
 
 exec($cmd);
 $fp = fopen($tmpfname, 'rb');
