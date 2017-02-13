@@ -364,7 +364,7 @@ $("#makeCard").click(function(){
 
         context.drawImage(img1, 0, 0, canvas.width, canvas.height);
         var text = "testname";
-        $.post("textgen.php", { theText: text.replace('"', '\"'), theColor: colors[radioval], pointsize: pointsizes[radioval], TheFont: thefonts[radioval] })
+        $.post("js/textgen.php", { theText: text.replace('"', '\"'), theColor: colors[radioval], pointsize: pointsizes[radioval], TheFont: thefonts[radioval] })
                 .done(function(data) {
                     console.log(data);
                     img2.src = "data:image/png;base64," + data;
