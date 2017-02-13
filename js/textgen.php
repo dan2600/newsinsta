@@ -12,7 +12,7 @@ $theFont = $_POST["TheFont"];
 $tmpfname = tempnam("/temp", "FOO");
 
 
-$cmd = "convert -background transparent -fill '".$color."' -font '".$theFont."' -pointsize ".$pontsize." label:".$text." png:- | convert - -background transparent -rotate 1.5 png:".$tmpfname;
+$cmd = "convert -background transparent -size 50x500 -fill '".$color."' -font '".$theFont."' -pointsize ".$pontsize." label:".$text." png:- | convert - -background transparent -rotate 1.5 png:".$tmpfname;
 
 exec($cmd);
 $fp = fopen($tmpfname, 'rb');
