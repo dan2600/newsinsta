@@ -335,9 +335,9 @@ function imageToCanvas(offX, offY, size, cropped) {
 }
 var colors = ["#ffffff", "#ffffff", "#b934ff", "#fe5ca6", "#ffffff", "#ffffff", "#ff4f51", "#ff6565", "#ff4dba"]
 var name1x =[120, 275, 355, 500, 530, 175, 610, 335, 350];
-var name1y = [375, 350, 290, 590, 625, 480, 595, 405, 285];
+var name1y = [375, 350, 290, 590, 625, 480, 585, 405, 285];
 var name2x = [235, 350, 425, 485, 590, 175, 615, 335, 420];
-var name2y = [500, 490, 395, 730, 710, 600, 705, 515, 375];
+var name2y = [500, 490, 395, 730, 710, 600, 695, 515, 375];
 var pointsizes = [45, 45, 50, 50, 40, 35, 40, 35, 50];
 var rotates = ["1.5", "2.5", "-3.5", "4.5", "6.3", "-2.5", "-4", "-3", "-3.8"];
 var thefonts = ["DINBold.ttf", "EamesCenturyModern-Bold.otf", "DINBold.ttf", "EamesCenturyModern-Bold.otf", "EamesCenturyModern-Bold.otf", "EamesCenturyModern-Bold.otf", "DINBold.ttf", "EamesCenturyModern-Bold.otf", "DINBold.ttf"];
@@ -363,7 +363,7 @@ $("#makeCard").click(function(){
         console.log("loaded");
 
         context.drawImage(img1, 0, 0, canvas.width, canvas.height);
-        var text = "testname";
+        var text = $("#toInput").val();
         $.post("js/textgen.php", { theText: text.replace('"', '\"'), theColor: colors[radioval], pointsize: pointsizes[radioval], TheFont: thefonts[radioval], rotate: rotates[radioval] })
                 .done(function(data) {
                     console.log(data);
@@ -373,6 +373,7 @@ $("#makeCard").click(function(){
       //  img2.src = 'images/' + "testnamewine.png";
        img2.onload = function() {
        context.drawImage(img2, name1x[radioval], name1y[radioval]);
+        var text = $("#fromInput").val();
                $.post("js/textgen.php", { theText: text.replace('"', '\"'), theColor: colors[radioval], pointsize: pointsizes[radioval], TheFont: thefonts[radioval], rotate: rotates[radioval]  })
                 .done(function(data) {
                     console.log(data);
