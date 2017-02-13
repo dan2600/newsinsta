@@ -339,7 +339,7 @@ var name1y = [375, 350, 290, 590, 625, 480, 595, 405, 285];
 var name2x = [235, 350, 425, 485, 590, 175, 615, 335, 420];
 var name2y = [500, 490, 395, 730, 710, 600, 705, 515, 375];
 var pointsizes = [45, 45, 50, 50, 40, 35, 40, 35, 50];
-var rotates = [1.5, 2.5, -3.5, 4.5, 6.3, -2.5, -4, -3, -3.8];
+var rotates = ["1.5", "2.5", "-3.5", "4.5", "6.3", "-2.5", "-4", "-3", "-3.8"];
 var thefonts = ["DINBold.ttf", "EamesCenturyModern-Bold.otf", "DINBold.ttf", "EamesCenturyModern-Bold.otf", "EamesCenturyModern-Bold.otf", "EamesCenturyModern-Bold.otf", "DIN Bold.ttf", "EamesCenturyModern-Bold.otf", "DIN Bold.ttf"];
 
 
@@ -364,7 +364,7 @@ $("#makeCard").click(function(){
 
         context.drawImage(img1, 0, 0, canvas.width, canvas.height);
         var text = "testname";
-        $.post("js/textgen.php", { theText: text.replace('"', '\"'), theColor: colors[radioval], pointsize: pointsizes[radioval], TheFont: thefonts[radioval] })
+        $.post("js/textgen.php", { theText: text.replace('"', '\"'), theColor: colors[radioval], pointsize: pointsizes[radioval], TheFont: thefonts[radioval], rotate: rotates[radioval] })
                 .done(function(data) {
                     console.log(data);
                     img2.src = "data:image/png;base64," + data;
@@ -373,6 +373,15 @@ $("#makeCard").click(function(){
       //  img2.src = 'images/' + "testnamewine.png";
        img2.onload = function() {
        context.drawImage(img2, name1x[radioval], name1y[radioval]);
+               $.post("js/textgen.php", { theText: text.replace('"', '\"'), theColor: colors[radioval], pointsize: pointsizes[radioval], TheFont: thefonts[radioval], rotate: rotates[radioval]  })
+                .done(function(data) {
+                    console.log(data);
+                    img3.src = "data:image/png;base64," + data;
+                });
+ img3.onload = function() {
+context.drawImage(img3, name2x[radioval], name2y[radioval]);
+ };
+
 }
 }
 });

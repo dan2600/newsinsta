@@ -8,11 +8,12 @@ $text = $_POST["theText"];
 $pontsize = $_POST["pointsize"];
 $color = $_POST["theColor"];
 $theFont = $_POST["TheFont"];
+$rotates = $_POST["rotate"];
 
 $tmpfname = tempnam("/temp", "FOO");
 
 
-$cmd = "convert -background transparent -size 400x60 -fill '".$color."' -font '".$theFont."' -pointsize ".$pontsize." label:".$text." png:- | convert - -background transparent -rotate 1.5 png:".$tmpfname;
+$cmd = "convert -background transparent -size 500x60 -fill '".$color."' -font '".$theFont."' -pointsize ".$pontsize." label:".$text." png:- | convert - -background transparent -rotate ".$rotates." png:".$tmpfname;
 
 exec($cmd);
 $fp = fopen($tmpfname, 'rb');
