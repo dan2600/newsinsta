@@ -371,9 +371,9 @@ $("#makeCard").click(function(){
                 });
         //var img2 = new Image();
       //  img2.src = 'images/' + "testnamewine.png";
-  //      img2.onload = function() {
-//        context.drawImage(img2, 105, 365);
-    //    }
+       img2.onload = function() {
+       context.drawImage(img2, name1x[radioval], name1y[radioval]);
+}
 }
 });
 
