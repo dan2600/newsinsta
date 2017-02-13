@@ -1,11 +1,20 @@
 <?php
 
-$text = $_POST["theText"];
 
+
+
+
+$text = $_POST["theText"];
+$pontsize = $_POST["pointsize"];
+$color = $_POST["theColor"];
+$theFont = $_POST["TheFont"];
 
 $tmpfname = tempnam("/temp", "FOO");
 
-exec("convert -size 987x214 -background transparent -fill \"#FFFFFF\" -font VH1Replica-Bold.ttf -gravity Center -interline-spacing -10 caption:\"".$text."\" png:".$tmpfname);
+
+$cmd = "convert -background transparent -fill '".$color."' -font '../fonts/".$theFont."' -pointsize ".$pontsize." label:".$text." png:- | convert - -background transparent -rotate 1.5 png:".$tmpfname;
+
+exec($cmd);
 
 $fp = fopen($tmpfname, 'rb');
 

@@ -27,6 +27,20 @@ if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(naviga
 
 //I Should have made objects, but whatever, deal with these functions... ;)
 //This One Makes the Text / Color Boxes if you don't type text.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 function makeText(context, text, x, y, maxWidth) {
 
     $("#loading").fadeIn(50);
@@ -319,27 +333,64 @@ function imageToCanvas(offX, offY, size, cropped) {
     img1.src = 'images/cleartest.png';
 
 }
+var colors = ["#ffffff", "#ffffff", "#b934ff", "#fe5ca6", "#ffffff", "#ffffff", "#ff4f51", "#ff6565", "#ff4dba"]
+var name1x =[120, 275, 355, 500, 530, 175, 610, 335, 350];
+var name1y = [375, 350, 290, 590, 625, 480, 595, 405, 285];
+var name2x = [235, 350, 425, 485, 590, 175, 615, 335, 420];
+var name2y = [500, 490, 395, 730, 710, 600, 705, 515, 375];
+var pointsizes = [45, 45, 50, 50, 40, 35, 40, 35, 50];
+var rotates = [1.5, 2.5, -3.5, 4.5, 6.3, -2.5, -4, -3, -3.8];
+var thefonts = ["DINBold.ttf", "EamesCenturyModern-Bold.otf", "DINBold.ttf", "EamesCenturyModern-Bold.otf", "EamesCenturyModern-Bold.otf", "EamesCenturyModern-Bold.otf", "DIN Bold.ttf", "EamesCenturyModern-Bold.otf", "DIN Bold.ttf"];
+
+
+var radioval = 0;
 
 $(document).ready(function() {
 
-    $("html").on("dragover", function(e) {
-        e.preventDefault();
 
-        e.stopPropagation();
-    });
+$('input[name="optradio"]').click(function() { radioval = $('input[name="optradio"]:checked').val() });
 
-    $("html").on("drop", function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        if (e.originalEvent.dataTransfer && working === false) {
-            if (e.originalEvent.dataTransfer.files.length) {
-                e.preventDefault();
-                e.stopPropagation();
-                /*UPLOAD FILES HERE*/
-                loadImage(e.originalEvent.dataTransfer.files[0]);
-            }
-        }
-    });
+$("#makeCard").click(function(){
+
+        var img1 = new Image();
+        var img2 = new Image();
+        var img3 = new Image();
+        canvas.width = 1080;
+        canvas.height = 1080;
+       img1.src = 'images/' + "card"+radioval+".jpg";
+
+    img1.onload = function() {
+        console.log("loaded");
+
+        context.drawImage(img1, 0, 0, canvas.width, canvas.height);
+        var text = "testname";
+        $.post("textgen.php", { theText: text.replace('"', '\"'), theColor: colors[radioval], pointsize: pointsizes[radioval], TheFont: thefonts[radioval] })
+                .done(function(data) {
+                    console.log(data);
+                    img2.src = "data:image/png;base64," + data;
+                });
+        //var img2 = new Image();
+      //  img2.src = 'images/' + "testnamewine.png";
+  //      img2.onload = function() {
+//        context.drawImage(img2, 105, 365);
+    //    }
+}
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     $("#download").on('click', function() {
         var bob = $("#textInput").val();
