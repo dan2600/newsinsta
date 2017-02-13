@@ -385,6 +385,9 @@ context.drawImage(img3, name2x[radioval], name2y[radioval]);
             var img = document.getElementById("previewImage");
             img.src = finalimage;
 $("#previewImage").show();
+ $("#download").show();
+
+
  };
 
 }
@@ -407,7 +410,7 @@ $("#previewImage").show();
 
 
     $("#download").on('click', function() {
-        var bob = $("#textInput").val();
+        var bob = $("#toInput").val();
         if(!bob)
         {
             bob = (Math.floor(Math.random()*10000)).toString();
