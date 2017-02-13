@@ -380,7 +380,9 @@ $("#makeCard").click(function(){
                 });
  img3.onload = function() {
 context.drawImage(img3, name2x[radioval], name2y[radioval]);
-img.src = canvas.toDataURL();
+            var finalimage = canvas.toDataURL("image/jpeg");
+            var img = document.getElementById("previewImage");
+            img.src = finalimage;
 $("#previewImage").show();
  };
 
