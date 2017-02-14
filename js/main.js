@@ -334,10 +334,10 @@ function imageToCanvas(offX, offY, size, cropped) {
 
 }
 var colors = ["#ffffff", "#ffffff", "#b934ff", "#fe5ca6", "#ffffff", "#ffffff", "#ff4f51", "#ff6565", "#ff4dba"]
-var name1x =[115, 230, 355, 500, 530, 175, 610, 335, 350];
-var name1y = [370, 390, 285, 590, 620, 475, 575, 400, 265];
-var name2x = [235, 400, 425, 485, 590, 180, 620, 340, 420];
-var name2y = [500, 420, 381, 735, 710, 590, 695, 510, 355];
+var name1x =[115, 350, 355, 500, 530, 175, 610, 335, 350];
+var name1y = [370, 310, 285, 590, 620, 475, 575, 400, 265];
+var name2x = [235, 510, 425, 485, 590, 180, 620, 340, 420];
+var name2y = [500, 450, 381, 735, 710, 590, 695, 510, 355];
 var pointsizes = [45, 45, 50, 50, 40, 35, 40, 35, 50];
 var rotates = ["1.5", "2.5", "-3.5", "4.5", "6.6", "-2.5", "-4", "-3", "-3.8"];
 var thefonts = ["DINBold.ttf", "EamesCenturyModern-Bold.otf", "DINBold.ttf", "EamesCenturyModern-Bold.otf", "EamesCenturyModern-Bold.otf", "EamesCenturyModern-Bold.otf", "DINBold.ttf", "EamesCenturyModern-Bold.otf", "DINBold.ttf"];
