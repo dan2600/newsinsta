@@ -360,7 +360,7 @@ $("#makeCard").click(function(){
 
         context.drawImage(img1, 0, 0, canvas.width, canvas.height);
         var text = $("#toInput").val();
-        var json = { "theText": text.replace('"', '\"'), "cardtype": radioval, "rotate": rotate};
+        var json = { "theText": text.replace('"', '\"'), "cardtype": radioval, "rotate": rotate[radioval]};
         console.log(json);
         $.post("js/textgen.php", json)
                 .done(function(data) {
