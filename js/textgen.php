@@ -1,7 +1,5 @@
 <?php
 
-convert -background transparent -size 400x70 -gravity center -rotate 180 -fill '#FFFFFF' -font 'DINBold.ttf' -pointsize "45" label:"@MAXEMERSON" -distort Arc 20 png:- | convert - -background transparent -rotate "-180" png:"testname.png"
-
 
 
 $text = $_POST["theText"];
