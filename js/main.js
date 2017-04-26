@@ -373,23 +373,8 @@ $("#makeCard").click(function(){
       //  img2.src = 'images/' + "testnamewine.png";
        img2.onload = function() {
        context.drawImage(img2, name1x[radioval], name1y[radioval]);
-        var text = $("#fromInput").val();
-               $.post("js/textgen.php", { theText: text.replace('"', '\"'), theColor: colors[radioval], pointsize: pointsizes[radioval], TheFont: thefonts[radioval], rotate: rotates[radioval]  })
-                .done(function(data) {
-                    console.log(data);
-                    img3.src = "data:image/png;base64," + data;
-                });
- img3.onload = function() {
-context.drawImage(img3, name2x[radioval], name2y[radioval]);
-            var finalimage = canvas.toDataURL("image/jpeg");
-            var img = document.getElementById("previewImage");
-            img.src = finalimage;
-$("#previewImage").show();
+       $("#previewImage").show();
  $("#download").show();
-
-
- };
-
 }
 }
 });
