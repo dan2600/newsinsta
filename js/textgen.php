@@ -1,19 +1,27 @@
 <?php
 
-
+convert -background transparent -size 400x70 -gravity center -rotate 180 -fill '#FFFFFF' -font 'DINBold.ttf' -pointsize "45" label:"@MAXEMERSON" -distort Arc 20 png:- | convert - -background transparent -rotate "-180" png:"testname.png"
 
 
 
 $text = $_POST["theText"];
-$pontsize = $_POST["pointsize"];
-$color = $_POST["theColor"];
-$theFont = $_POST["TheFont"];
-$rotates = $_POST["rotate"];
+$cardtype = $_POST["cardtype"];
+
 
 $tmpfname = tempnam("/temp", "FOO");
 
+if(inval($cardtype) -2 >= 0)
+{
 
-$cmd = "convert -background transparent -size 500x60 -fill '".$color."' -font '".$theFont."' -pointsize ".$pontsize." label:".$text." png:- | convert - -background transparent -rotate ".$rotates." png:".$tmpfname;
+$cmd = "convert -background transparent -size 540x80 -fill '#FFFFFF' -font 'DINBold.ttf' -pointsize \"66\" label:".$text." png:- | convert - -background transparent -rotate \"6.3\" png:".$tmpfname;
+}
+
+
+else
+{
+$cmd = "convert -background transparent -size 400x70 -gravity center -rotate 180 -fill '#FFFFFF' -font 'DINBold.ttf' -pointsize \"45\" label:".$text." png:- | convert - -background transparent -rotate \"-180\" png:".$tmpfname;
+}
+
 
 exec($cmd);
 $fp = fopen($tmpfname, 'rb');
