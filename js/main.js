@@ -38,15 +38,15 @@ if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(naviga
 
 
 
-
+    var img1 = new Image();
+    var img2 = new Image();
 
 
 function makeText(context, text, x, y, maxWidth) {
 
     $("#loading").fadeIn(50);
     context.putImageData(backimage, 0, 0);
-    var img1 = new Image();
-    var img2 = new Image();
+
     if (text !== "" && imgtype != "3") {
 
         img1.src = 'images/' + colorselect[thecolor];
