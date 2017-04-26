@@ -17,7 +17,7 @@ $cmd = "convert -background transparent -size 540x80 -fill '#FFFFFF' -font 'DINB
 
 else
 {
-$cmd = "convert -background transparent -size 400x70 -gravity center -rotate 180 -fill '#FFFFFF' -font 'DINBold.ttf' -pointsize \"45\" label:".$text." png:- | convert - -background transparent -rotate \"-180\" png:".$tmpfname;
+$cmd = "convert -background transparent -size 400x70 -gravity center -rotate 180 -fill '#FFFFFF' -font 'DINBold.ttf' -pointsize \"45\" label:".$text." -distort Arc 20 png:- | convert - -background transparent -rotate \"-180\" png:".$tmpfname;
 }
 
 
