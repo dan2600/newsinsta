@@ -8,7 +8,7 @@ $cardtype = $_POST["cardtype"];
 
 $tmpfname = tempnam("/temp", "FOO");
 
-if(inval($cardtype) -2 >= 0)
+if(intval($cardtype) -2 >= 0)
 {
 
 $cmd = "convert -background transparent -size 540x80 -fill '#FFFFFF' -font 'DINBold.ttf' -pointsize \"66\" label:".$text." png:- | convert - -background transparent -rotate \"6.3\" png:".$tmpfname;
