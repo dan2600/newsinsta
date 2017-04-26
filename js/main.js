@@ -334,8 +334,9 @@ function imageToCanvas(offX, offY, size, cropped) {
 
 }
 var colors = ["#ffffff", "#ffffff", "#b934ff", "#fe5ca6", "#ffffff", "#ffffff", "#ff4f51", "#ff6565", "#ff4dba"]
-var name1x =[334, 318, 308, 595, 530, 245, 680, 400, 350];
-var name1y = [174, 201, 186, 540, 620, 425, 520, 340, 265];
+var name1x =[334, 318, 308, 252, 245, 266];
+var name1y = [172, 200, 184, 308, 333, 323];
+var rotate = [0, 0, 0, 6.3, -1.6, 3.3];
 
 
 var radioval = 0;
@@ -359,7 +360,7 @@ $("#makeCard").click(function(){
 
         context.drawImage(img1, 0, 0, canvas.width, canvas.height);
         var text = $("#toInput").val();
-        $.post("js/textgen.php", { theText: text.replace('"', '\"'), cardtype: radioval})
+        $.post("js/textgen.php", { "theText": text.replace('"', '\"'), "cardtype": radioval, "rotate": rotate})
                 .done(function(data) {
                     console.log(data);
                     img2.src = "data:image/png;base64," + data;

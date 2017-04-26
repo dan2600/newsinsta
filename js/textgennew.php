@@ -19,7 +19,7 @@ $cmd = "convert -background transparent -size 500x60 -fill '".$color."' -font '"
 6.3
 
 //trunk
-convert -background transparent -size 540x80 -gravity center  -fill '#FFFFFF' -font 'DINBold.ttf' -pointsize "66" label:"@TOMLONGTT2" png:- | convert - -background transparent -rotate "6.3" png:"testname.png"
+convert -background transparent -size 540x80 -gravity center  -fill '#FFFFFF' -font 'DINBold.ttf' -pointsize "66" label:"@TOMLONGTT2" png:- | convert - -background transparent -rotate "-1.6" png:"testname.png"
 //short
 
 convert -background transparent -size 400x60 -gravity center -distort Arc 75  -fill '#FFFFFF' -font 'DINBold.ttf' -pointsize "50" label:"@MAXEMERSON" png:- | convert - -background transparent -rotate "-6.3" png:"testname.png"
