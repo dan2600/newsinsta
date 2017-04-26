@@ -12,7 +12,7 @@ $tmpfname = tempnam("/temp", "FOO");
 if(intval($cardtype) -2 > 0)
 {
 
-$cmd = "convert -background transparent -size 540x80 -gravity center -fill '#000000' -font 'DINBold.ttf' -pointsize \"64\" label:".$text." png:- | convert - -background transparent -rotate \"".$rotate."\" png:".$tmpfname;
+$cmd = "convert -background transparent -size 540x80 -gravity center -fill '#000000' -font 'DINBold.ttf' -pointsize \"64\" label:'".$text."' png:- | convert - -background transparent -rotate ".$rotate." png:".$tmpfname;
 }
 
 
