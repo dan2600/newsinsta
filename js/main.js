@@ -375,6 +375,13 @@ $("#makeCard").click(function(){
        context.drawImage(img2, name1x[radioval], name1y[radioval]);
        $("#previewImage").show();
  $("#download").show();
+
+             var finalimage = canvas.toDataURL("image/jpeg");
+            var img = document.getElementById("previewImage");
+            img.src = finalimage;
+     
+     
+
 }
 }
 });
