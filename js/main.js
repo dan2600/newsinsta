@@ -336,7 +336,7 @@ function imageToCanvas(offX, offY, size, cropped) {
 var colors = ["#ffffff", "#ffffff", "#b934ff", "#fe5ca6", "#ffffff", "#ffffff", "#ff4f51", "#ff6565", "#ff4dba"]
 var name1x =[334, 318, 308, 252, 245, 266];
 var name1y = [172, 200, 184, 308, 333, 323];
-var rotate = [0, 0, 0, 6.3, -1.6, 3.3];
+var rotate = [0, 0, 0, 6.3, -1.6, 2.3];
 
 
 var radioval = 0;
