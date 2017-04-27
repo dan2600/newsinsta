@@ -9,7 +9,7 @@ $color = "#FFFFFF";
 
 if($cardtype == "1")
 {
-	$color = "#000000"
+	$color = "#000000";
 }
 
 $tmpfname = tempnam("/temp", "FOO");
