@@ -5,7 +5,12 @@
 $text = $_POST["theText"];
 $cardtype = $_POST["cardtype"];
 $rotate = $_POST["rotate"];
+$color = "#FFFFFF";
 
+if($cardtype == "1")
+{
+	$color = "#000000"
+}
 
 $tmpfname = tempnam("/temp", "FOO");
 
@@ -18,7 +23,7 @@ $cmd = "convert -background transparent -size 540x80 -gravity center -fill '#000
 
 else
 {
-$cmd = "convert -background transparent -size 400x70 -gravity center -rotate 180 -fill '#FFFFFF' -font 'DINBold.ttf' -pointsize \"45\" label:".$text." -distort Arc 20 png:- | convert - -background transparent -rotate \"-180\" png:".$tmpfname;
+$cmd = "convert -background transparent -size 400x70 -gravity center -rotate 180 -fill '".$color."' -font 'DINBold.ttf' -pointsize \"45\" label:".$text." -distort Arc 20 png:- | convert - -background transparent -rotate \"-180\" png:".$tmpfname;
 }
 
 
